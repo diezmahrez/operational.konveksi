@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Validator;
 // use App\Models\PotonganBahan;
 use App\Models\Customer;
 use App\Models\Modelpola;
+use App\Models\OrdersDetail;
 use App\Models\OrdersM;
 
 // use App\Models\PotonganBahanDetail;
 
 class Orders extends Controller
-{     
-     
+{
+
     public function Orders()
-    {   
+    {
         $orders = OrdersM::join('dt_customer', 'dt_orders.kode_customer', '=', 'dt_customer.kode_customer')
             ->join('dt_modelpola', 'dt_orders.kode_model', '=', 'dt_modelpola.kode_model')
             ->select('dt_orders.*', 'dt_customer.nama_brand', 'dt_modelpola.nama_model')
@@ -47,11 +48,12 @@ class Orders extends Controller
     {
         $kode_model = $request->input('kode_model');
 
-        $data = Modelpola::select('harga_penjahit', 'harga_produksi','harga_pemotongbahan')->Where('kode_model', $kode_model)->first();
+        $data = Modelpola::select('harga_penjahit', 'harga_produksi', 'harga_pemotongbahan')->Where('kode_model', $kode_model)->first();
 
         return response()->json(['data' => $data]);
     }
-    public function post_orders(Request $post_data){
+    public function post_orders(Request $post_data)
+    {
         $validator = Validator::make($post_data->all(), [
             'kode_customer' => 'required|min:5|string',
             'kode_model' => 'required|min:4|string',
@@ -85,7 +87,7 @@ class Orders extends Controller
         }
 
 
-        $kode_order = 'TR'.$kode_customer . $kode_model . 'X' . $tanggal_convert .  $prefix;
+        $kode_order = 'TR' . $kode_customer . $kode_model . 'X' . $tanggal_convert .  $prefix;
         // echo $kode_order;
 
         $data = [
@@ -101,7 +103,14 @@ class Orders extends Controller
             'user_update' => session()->get('nik'),
         ];
 
+        $datadetail = [
+            'kode_order' => $kode_order,
+            'user_input' => session()->get('nik'),
+            'user_update' => session()->get('nik'),
+        ];
+
         $post_order = OrdersM::create($data);
+        $post_order_detail = OrdersDetail::create($datadetail);
 
         return redirect('/orders')->with('primary', 'Berhasil Input Data!');
     }

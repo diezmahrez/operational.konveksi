@@ -16,6 +16,7 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use App\Models\PotonganBahan;
 use App\Models\Customer;
 use App\Models\Modelpola;
+use App\Models\OrdersDetail;
 use App\Models\PotonganBahanDetail;
 use App\Models\OrdersM;
 use App\Models\User;
@@ -129,9 +130,13 @@ class PotonganbahanController extends Controller
         ];
 
         $post_potonganbahan = PotonganBahan::create($data);
-        $update_kode_order = OrdersM::where('kode_order', '=', $kode_order)->update(
+
+        $update_orders_detail = OrdersDetail::where('kode_order', '=', $kode_order)->update(
             [
-                'detail_status' => 'PEMOTONGAN BAHAN'
+                'potongan_bahan_input' => 'Y',
+                'potongan_bahan_input_timestamp' => date('Y-m-d H:i:s'),
+                'user_update' => session()->get('nik'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         );
 
@@ -367,6 +372,14 @@ class PotonganbahanController extends Controller
                         'user_update' => $nik,
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
+                $update_orders_detail = OrdersDetail::where('kode_order', '=', 'TR'.$kode_potonganbahan)->update(
+                    [
+                        'potongan_bahan_closed' => 'Y',
+                        'potongan_bahan_closed_timestamp' => date('Y-m-d H:i:s'),
+                        'user_update' => session()->get('nik'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]
+                );
                 return redirect('/potonganbahan' . '/' . $kode_potonganbahan)->with('success', 'Berhasil Closed Potongan Bahan!');
             } else {
                 return redirect('/potonganbahan' . '/' . $kode_potonganbahan)->with('error', 'Tidak bisa di Close karena tidak ada detail data!');
@@ -382,11 +395,11 @@ class PotonganbahanController extends Controller
             return redirect('/');
         } else {
             $header = PotonganBahan::join('dt_customer', 'dt_potonganbahan.kode_customer', '=', 'dt_customer.kode_customer')
-            ->join('dt_modelpola', 'dt_potonganbahan.kode_model', '=', 'dt_modelpola.kode_model')
-            ->select('dt_potonganbahan.*', 'dt_customer.nama_brand', 'dt_modelpola.nama_model')
-            ->where('dt_potonganbahan.kode_potonganbahan', '=', $kode_potonganbahan)
-            ->first();
-            $detail = PotonganBahanDetail::where('kode_potonganbahan','=',$kode_potonganbahan)->get();
+                ->join('dt_modelpola', 'dt_potonganbahan.kode_model', '=', 'dt_modelpola.kode_model')
+                ->select('dt_potonganbahan.*', 'dt_customer.nama_brand', 'dt_modelpola.nama_model')
+                ->where('dt_potonganbahan.kode_potonganbahan', '=', $kode_potonganbahan)
+                ->first();
+            $detail = PotonganBahanDetail::where('kode_potonganbahan', '=', $kode_potonganbahan)->get();
 
             $data = [
                 'menu' => 'PotonganBahan',
@@ -394,7 +407,7 @@ class PotonganbahanController extends Controller
                 'detail' => $detail
             ];
 
-            return view('potongan_bahan.print',$data);
+            return view('potongan_bahan.print', $data);
         }
     }
 }
