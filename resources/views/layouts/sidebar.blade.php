@@ -75,18 +75,20 @@
         background: #dc3545;
     }
 
-    #sidebar ul li.onthis, ul a.onthis{
+    #sidebar ul li.onthis,
+    ul a.onthis {
         color: #fff;
         background: #464646;
     }
 
-    #sidebar ul >  a.onthis{
+    #sidebar ul>a.onthis {
         color: #fff;
         background: #464646;
     }
-    
-    
-    #sidebar ul li.active>a,a[aria-expanded="true"] {
+
+
+    #sidebar ul li.active>a,
+    a[aria-expanded="true"] {
         color: #fff;
         background: #6d7fcc;
     }
@@ -103,7 +105,7 @@
         transform: translateY(-50%);
     }
 
-    #sidebar > ul ul a {
+    #sidebar>ul ul a {
         font-size: 0.9em !important;
         padding-left: 30px !important;
         background: #6d7fcc;
@@ -140,18 +142,18 @@
             z-index: 1;
         }
 
-        .navbar{
-           position: fixed;
-           overflow: hidden;
-           top: 0;
-           width: 100%;
+        .navbar {
+            position: fixed;
+            overflow: hidden;
+            top: 0;
+            width: 100%;
         }
-        
-        .main{
+
+        .main {
             margin-top: 60px;
         }
 
-        #sidebarCollapse1{
+        #sidebarCollapse1 {
             display: none;
         }
 
@@ -204,21 +206,31 @@
         </li>
         <li class="">
             <a href="#potonganbahan" data-bs-toggle="collapse" aria-expanded="@if ($menu == 'PotonganBahan')true @else false @endif" class="@if ($menu == 'PotonganBahan') dropdown-toggle @else dropdown-toggle collapsed @endif"><i class="bi bi-sticky-fill me-2"></i>Potongan Bahan
-            @if (session()->get('badge.potongan_bahan') > 0)
-                <span class="badge text-bg-warning ms-1">    
-                {{session()->get('badge.potongan_bahan');}}
+                @if (session()->get('badge.potongan_bahan') > 0)
+                <span class="badge text-bg-warning ms-1">
+                    {{session()->get('badge.potongan_bahan');}}
                 </span>
                 @endif
             </a>
             <ul class="@if ($menu == 'PotonganBahan') collapsed @else collapse @endif list-unstyled" id="potonganbahan">
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahan')onthis @endif" href="{{ url('potonganbahan') }}">Input Data
-                @if (session()->get('badge.potongan_bahan') > 0)
-                <span class="badge text-bg-warning ms-1">    
-                {{session()->get('badge.potongan_bahan');}}
-                </span>
-                @endif</a>
+                    @if (session()->get('badge.potongan_bahan') > 0)
+                    <span class="badge text-bg-warning ms-1">
+                        {{session()->get('badge.potongan_bahan');}}
+                    </span>
+                    @endif</a>
                 <a class="@if ( isset($submenu) and $submenu == 'historypotonganbahan')onthis @endif" href="{{ url('historypotonganbahan') }}">History</a>
                 <!-- <a href="#">History </a> -->
+            </ul>
+        </li>
+        <li class="">
+            <a href="#potonganbahandetail" data-bs-toggle="collapse" aria-expanded="@if ($menu == 'PotonganBahanDetail')true @else false @endif" class="@if ($menu == 'PotonganBahanDetail') dropdown-toggle @else dropdown-toggle collapsed @endif"><i class="bi bi-sticky-fill me-2"></i>Potongan Bahan Detail
+            </a>
+            <ul class="@if ($menu == 'PotonganBahanDetail') collapsed @else collapse @endif list-unstyled" id="potonganbahandetail">
+                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Data Process </a>
+                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Data Closed </a>
+                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">History </a>
+                    <!-- <a href="#">History </a> -->
             </ul>
         </li>
         <li class="@if ($menu == 'Customer')onthis @endif">
