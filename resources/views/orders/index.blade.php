@@ -71,31 +71,39 @@
         </div>
     </div>
 </div>
-@foreach ($orders as $no => $s)
-<div class="card my-2">
-    <div class="card-body">
-        <div class="header d-flex justify-content-between align-items-center">
-            <small class="m-0 text-secondary">{{date_format(new DateTime($s->tanggal),"d F Y");}} - {{$s->kode_order}}</small>
-            <p class="m-0   badge 
-            @if($s->status == 'PROCESS') text-bg-warning
-            @else
-            text-bg-secondary
-            @endif
-            ">
-                {{ $s->status }}
-            </p>
-        </div>
-        <div class="detail d-flex justify-content-between align-items-start">
-            <h6>{{$s->nama_brand}} - {{$s->nama_model}}</h6>
-            <h6 class="m-0 badge text-bg-secondary">{{$s->detail_status}}</h6>
-        </div>
-        <div class="detail-2 d-flex justify-content-between align-items-center">
-            <p class="text-dark m-0">{{$s->judul}}</p>
-            <a href="{{url('/orders/'.$s->kode_order)}}" class="btn btn-outline-secondary btn-sm">Lihat Detail</a>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class="table table-sm table-hover" id="example">
+        <tr>
+            
+            @foreach ($orders as $no => $s)
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="header d-flex justify-content-between align-items-center">
+                        <small class="m-0 text-secondary">{{date_format(new DateTime($s->tanggal),"d F Y");}} - {{$s->kode_order}}</small>
+                        <p class="m-0   badge 
+                        @if($s->status == 'PROCESS') text-bg-warning
+                        @else
+                        text-bg-secondary
+                        @endif
+                        ">
+                            {{ $s->status }}
+                        </p>
+                    </div>
+                    <div class="detail d-flex justify-content-between align-items-start">
+                        <h6>{{$s->nama_brand}} - {{$s->nama_model}}</h6>
+                        <h6 class="m-0 badge text-bg-secondary">{{$s->detail_status}}</h6>
+                    </div>
+                    <div class="detail-2 d-flex justify-content-between align-items-center">
+                        <p class="text-dark m-0">{{$s->judul}}</p>
+                        <a href="{{url('/orders/'.$s->kode_order)}}" class="btn btn-outline-secondary btn-sm">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </tr>
+</table>
+
 </div>
-@endforeach
 
 <script>
     new DataTable('#example', {
