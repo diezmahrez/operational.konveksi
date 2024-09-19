@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(PotonganBahanDetailController::class)->group(function(){
         //Potongan Bahan Detail
         Route::any('/potonganbahandetail/inputprocess',  'inputprocess');
-        Route::get('/potonganbahandetail/inputclose',  'inputclose');
+        Route::any('/potonganbahandetail/inputclose',  'inputclose');
         Route::get('/potonganbahandetail/getkode_potonganbahan_detail',  'getkode_potonganbahan_detail');
     });
 
