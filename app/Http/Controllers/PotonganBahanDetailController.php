@@ -17,10 +17,10 @@ class PotonganBahanDetailController extends Controller
             $checkHasProcess = PotonganBahanDetail::where('nik_process', '!=', '')
                 ->where('kode_potonganbahan_detail', '=', $post_data->input('kode_potonganbahan_detail'))->count();
 
-            // if ($checkHasProcess > 0) {
-            //     return redirect('/potonganbahandetail/inputprocess')
-            //         ->with('danger', 'Kode Tersebut sudah di input!!');
-            // }
+            if ($checkHasProcess > 0) {
+                return redirect('/potonganbahandetail/inputprocess')
+                    ->with('danger', 'Kode Tersebut sudah di input!!');
+            }
 
             $updatedata = [
                 'nik_process' => $post_data->input('nik'),
@@ -74,4 +74,66 @@ class PotonganBahanDetailController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function inputclose(Request  $post_data)
+    {
+        if ($post_data->input('kode_potonganbahan_detail')) {
+            $checkNotYetInputProcess = PotonganBahanDetail::where('nik_process', '=', '')
+                ->where('kode_potonganbahan_detail', '=', $post_data->input('kode_potonganbahan_detail'))->count();
+
+            if ($checkNotYetInputProcess > 0) {
+                return redirect('/potonganbahandetail/inputclose')
+                    ->with('danger', 'Kode Tersebut Belum di input di Menu Input Proses Jahit!!');
+            }
+
+            $checkAlreadyInputClose = PotonganBahanDetail::where([
+                ['kode_potonganbahan_detail','=',$post_data->input('kode_potonganbahan_detail')],
+                ['status','=','CLOSED']
+            ])->count();
+
+            if($checkAlreadyInputClose > 0){
+                return redirect('/potonganbahandetail/inputclose')
+                    ->with('danger', 'Kode Tersebut Sudah di Input Selesai Jahit!!');
+            }
+
+            $updatedata = [
+                'qty_end' => $post_data->input('qty_end'),
+                'status' => 'CLOSED',
+                'nik_closed_timestamp' => date('Y-m-d H:i:s'),
+                'user_update' => session()->get('nik'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+
+            $updatePotonganBahanDetail = PotonganBahanDetail::where('kode_potonganbahan_detail', '=', $post_data->input('kode_potonganbahan_detail'))->update($updatedata);
+            $kode_potonganbahan =  substr($post_data->input('kode_potonganbahan_detail'), 0, 17);
+            
+            $checkForUpdateOrderdetail = PotonganBahanDetail::where(function($query){
+                $query->where('status','=','PROCESS')
+                      ->orWhere('status','=','');
+            })->where('kode_potonganbahan','=',$kode_potonganbahan)->count();
+            // dd($checkForUpdateOrderdetail);
+            if ($checkForUpdateOrderdetail == 0) {
+                $kode_order = 'TR'.$kode_potonganbahan;
+                $update_orders_detail = OrdersDetail::where('kode_order', '=', $kode_order)->update(
+                    [
+                        'penjahit_closed' => 'Y',
+                        'penjahit_closed_timestamp' => date('Y-m-d H:i:s'),
+                        'user_update' => session()->get('nik'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]
+                );
+            }
+            return redirect('/potonganbahandetail/inputclose')->with('success', 'Berhasil Input Data!!');
+        }
+
+
+        $getNikKaryawan = Karyawan::where('aktif', '=', 'y')->get();
+        $data = [
+            'menu' => 'PotonganBahanDetail',
+            'submenu' => 'inputclose',
+            'karyawan' => $getNikKaryawan
+        ];
+        return view('potongan_bahan_detail.inputclose', $data);
+    }
+    
 }

@@ -228,7 +228,7 @@
             </a>
             <ul class="@if ($menu == 'PotonganBahanDetail') collapse show @else collapse @endif list-unstyled" id="potonganbahandetail"  data-bs-parent="#ParentSidebar">
                 <a class="@if ( isset($submenu) and $submenu == 'inputprocess')onthis @endif" href="{{ url('potonganbahandetail/inputprocess') }}">Input Proses Jahit</a>
-                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Selesai Jahit </a>
+                <a class="@if ( isset($submenu) and $submenu == 'inputclose')onthis @endif" href="{{ url('potonganbahandetail/inputclose') }}">Input Selesai Jahit </a>
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">History </a>
                     <!-- <a href="#">History </a> -->
             </ul>
