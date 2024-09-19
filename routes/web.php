@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(PotonganbahanController::class)->group(function(){
         //Potongan Bahan
         Route::get('/potonganbahan',  'potonganbahan');
-        Route::get('/historypotonganbahan',  'historypotonganbahan');
+        Route::any('/historypotonganbahan',  'historypotonganbahan');
         Route::get('/potonganbahan/getkodemodel',  'getkodemodel');
         Route::post('/potonganbahan/post_potonganbahan',  'post_potonganbahan');
         Route::get('/potonganbahan/{kode_potonganbahan}',  'detail_potonganbahan');
