@@ -44,7 +44,7 @@ Route::post('/orders/post_orders',[Orders::class,'post_orders'])->middleware('au
 
 //Potongan Bahan
 Route::get('/potonganbahan',[PotonganbahanController::class,'potonganbahan'])->middleware('auth');
-Route::get('/historypotonganbahan',[PotonganbahanController::class,'historypotonganbahan'])->middleware('auth');
+Route::any('/historypotonganbahan',[PotonganbahanController::class,'historypotonganbahan'])->middleware('auth');
 Route::get('/potonganbahan/getkodemodel',[PotonganbahanController::class,'getkodemodel'])->middleware('auth');
 Route::post('/potonganbahan/post_potonganbahan',[PotonganbahanController::class,'post_potonganbahan'])->middleware('auth');
 Route::get('/potonganbahan/{kode_potonganbahan}',[PotonganbahanController::class,'detail_potonganbahan'])->middleware('auth');

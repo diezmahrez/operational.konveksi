@@ -53,18 +53,29 @@ class PotonganbahanController extends Controller
         return view('potongan_bahan.index', $data);
     }
 
-    public function historypotonganbahan()
+    public function historypotonganbahan(Request $post_data)
     {
+        if (empty($post_data->tglAwal) || empty($post_data->tglAkhir)) {
+            $tglAwal = date('Y-m-01');
+            $tglAkhir = date('Y-m-t');
+        } else {
+            $tglAwal = $post_data->tglAwal;
+            $tglAkhir = $post_data->tglAkhir;
+        }
         $potonganbahan = PotonganBahan::join('dt_customer', 'dt_potonganbahan.kode_customer', '=', 'dt_customer.kode_customer')
             ->join('dt_modelpola', 'dt_potonganbahan.kode_model', '=', 'dt_modelpola.kode_model')
             ->select('dt_potonganbahan.*', 'dt_customer.nama_brand', 'dt_modelpola.nama_model')
             ->where('dt_potonganbahan.status', '=', 'CLOSED')
+            ->where('tanggal', '>=', $tglAwal)
+            ->where('tanggal', '<=', $tglAkhir)
             ->orderBy('dt_potonganbahan.id', 'ASC')
             ->get();
         $data = [
             'menu' => 'PotonganBahan',
             'submenu' => 'historypotonganbahan',
-            'potonganbahan' => $potonganbahan
+            'potonganbahan' => $potonganbahan,
+            'tglAwal' => $tglAwal,
+            'tglAkhir' => $tglAkhir
         ];
         return view('potongan_bahan.history', $data);
     }
@@ -372,7 +383,7 @@ class PotonganbahanController extends Controller
                         'user_update' => $nik,
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
-                $update_orders_detail = OrdersDetail::where('kode_order', '=', 'TR'.$kode_potonganbahan)->update(
+                $update_orders_detail = OrdersDetail::where('kode_order', '=', 'TR' . $kode_potonganbahan)->update(
                     [
                         'potongan_bahan_closed' => 'Y',
                         'potongan_bahan_closed_timestamp' => date('Y-m-d H:i:s'),
