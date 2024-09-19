@@ -227,8 +227,8 @@
             <a href="#potonganbahandetail" data-bs-toggle="collapse" aria-expanded="@if ($menu == 'PotonganBahanDetail')true @else false @endif" class="@if ($menu == 'PotonganBahanDetail') dropdown-toggle @else dropdown-toggle collapsed @endif"><i class="bi bi-sticky-fill me-2"></i>Potongan Bahan Detail
             </a>
             <ul class="@if ($menu == 'PotonganBahanDetail') collapse show @else collapse @endif list-unstyled" id="potonganbahandetail"  data-bs-parent="#ParentSidebar">
-                <a class="@if ( isset($submenu) and $submenu == 'inputprocess')onthis @endif" href="{{ url('potonganbahandetail/inputprocess') }}">Input Data Process </a>
-                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Data Closed </a>
+                <a class="@if ( isset($submenu) and $submenu == 'inputprocess')onthis @endif" href="{{ url('potonganbahandetail/inputprocess') }}">Input Proses Jahit</a>
+                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Selesai Jahit </a>
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">History </a>
                     <!-- <a href="#">History </a> -->
             </ul>

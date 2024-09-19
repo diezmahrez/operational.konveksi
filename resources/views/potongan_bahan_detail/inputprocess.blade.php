@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="menu d-block text-center my-4">
-    <h2 class="fw-normal">Input Potongan Bahan Detail</h2>
+    <h2 class="fw-normal">Input Proses Jahit</h2>
     <hr>
 </div>
 <div class="">
