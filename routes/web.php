@@ -31,53 +31,65 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/auth', [authController::class, 'check_auth']);
-Route::get('/logout', [authController::class, 'logout']);
 
-Route::get('/dashboard', [dashboard::class, 'index'])->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/logout', [authController::class, 'logout']);
 
-//Orders
-Route::get('/orders',[Orders::class,'orders'])->middleware('auth');
-Route::get('/orders/getkodemodel',[Orders::class,'getkodemodel'])->middleware('auth');
-Route::get('/orders/getdataharga',[Orders::class,'getdataharga'])->middleware('auth');
-Route::post('/orders/post_orders',[Orders::class,'post_orders'])->middleware('auth');
+    Route::get('/dashboard', [dashboard::class, 'index']);
 
+    Route::controller(Orders::class)->group(function () {
+        //Orders
+        Route::get('/orders', 'orders');
+        Route::get('/orders/getkodemodel',  'getkodemodel');
+        Route::get('/orders/getdataharga',  'getdataharga');
+        Route::post('/orders/post_orders',  'post_orders');
+    });
 
-//Potongan Bahan
-Route::get('/potonganbahan',[PotonganbahanController::class,'potonganbahan'])->middleware('auth');
-Route::get('/historypotonganbahan',[PotonganbahanController::class,'historypotonganbahan'])->middleware('auth');
-Route::get('/potonganbahan/getkodemodel',[PotonganbahanController::class,'getkodemodel'])->middleware('auth');
-Route::post('/potonganbahan/post_potonganbahan',[PotonganbahanController::class,'post_potonganbahan'])->middleware('auth');
-Route::get('/potonganbahan/{kode_potonganbahan}',[PotonganbahanController::class,'detail_potonganbahan'])->middleware('auth');
-Route::get('/historypotonganbahan/{kode_potonganbahan}',[PotonganbahanController::class,'historydetail_potonganbahan'])->middleware('auth');
-Route::post('/potonganbahan/post_potonganbahandetail',[PotonganbahanController::class,'post_potonganbahandetail'])->middleware('auth');
-Route::post('/potonganbahan/qrcode_print',[PotonganbahanController::class,'qrcode_print'])->middleware('auth');
-Route::post('/potonganbahan/delete_detaildata',[PotonganbahanController::class,'delete_detaildata'])->middleware('auth');
-Route::post('/potonganbahan/edit_detaildata',[PotonganbahanController::class,'edit_detaildata'])->middleware('auth');
-Route::get('/potonganbahan/close/{kode_potonganbahan}',[PotonganbahanController::class,'close_potonganbahan'])->middleware('auth');
-Route::get('/potonganbahan/print/{kode_potonganbahan}',[PotonganbahanController::class,'print_potonganbahan'])->middleware('auth');
+    Route::controller(PotonganbahanController::class)->group(function(){
+        //Potongan Bahan
+        Route::get('/potonganbahan',  'potonganbahan');
+        Route::get('/historypotonganbahan',  'historypotonganbahan');
+        Route::get('/potonganbahan/getkodemodel',  'getkodemodel');
+        Route::post('/potonganbahan/post_potonganbahan',  'post_potonganbahan');
+        Route::get('/potonganbahan/{kode_potonganbahan}',  'detail_potonganbahan');
+        Route::get('/historypotonganbahan/{kode_potonganbahan}',  'historydetail_potonganbahan');
+        Route::post('/potonganbahan/post_potonganbahandetail',  'post_potonganbahandetail');
+        Route::post('/potonganbahan/qrcode_print',  'qrcode_print');
+        Route::post('/potonganbahan/delete_detaildata',  'delete_detaildata');
+        Route::post('/potonganbahan/edit_detaildata',  'edit_detaildata');
+        Route::get('/potonganbahan/close/{kode_potonganbahan}',  'close_potonganbahan');
+        Route::get('/potonganbahan/print/{kode_potonganbahan}',  'print_potonganbahan');
+        
+    });
 
-//Potongan Bahan Detail
-Route::any('/potonganbahandetail/inputprocess',[PotonganBahanDetailController::class,'inputprocess'])->middleware('auth');
-Route::get('/potonganbahandetail/inputclose',[PotonganBahanDetailController::class,'inputclose'])->middleware('auth');
-Route::get('/potonganbahandetail/getkode_potonganbahan_detail',[PotonganBahanDetailController::class,'getkode_potonganbahan_detail'])->middleware('auth');
+    Route::controller(PotonganBahanDetailController::class)->group(function(){
+        //Potongan Bahan Detail
+        Route::any('/potonganbahandetail/inputprocess',  'inputprocess');
+        Route::get('/potonganbahandetail/inputclose',  'inputclose');
+        Route::get('/potonganbahandetail/getkode_potonganbahan_detail',  'getkode_potonganbahan_detail');
+    });
 
+    Route::controller(CustomerController::class)->group(function(){
+        //Customer
+        Route::get('/customer',  'customer');
+        Route::post('/customer/post_customer',  'post_customer');
+        Route::get('customer/lihat-detail-data',  'lihat_detail_data');
+        Route::post('/customer/update_customer',  'change_customer');
+    });
 
+    Route::controller(ModelpolaController::class)->group(function(){
+        //Model_pola
+        Route::get('/Model_pola',  'index');
+        Route::post('/Model_pola/post_modelpola',  'post_modelpola');
+        Route::get('Model_pola/lihat-detail-data',  'lihat_detail_data');
+        Route::post('/Model_pola/update_model',  'change_model');
+    });
 
-//Customer
-Route::get('/customer',[CustomerController::class,'customer'])->middleware('auth');
-Route::post('/customer/post_customer',[CustomerController::class,'post_customer'])->middleware('auth');
-Route::get('customer/lihat-detail-data',[CustomerController::class,'lihat_detail_data'])->middleware('auth');
-Route::post('/customer/update_customer',[CustomerController::class,'change_customer'])->middleware('auth');
-
-//Model_pola
-Route::get('/Model_pola',[ModelpolaController::class,'index'])->middleware('auth');
-Route::post('/Model_pola/post_modelpola',[ModelpolaController::class,'post_modelpola'])->middleware('auth');
-Route::get('Model_pola/lihat-detail-data',[ModelpolaController::class,'lihat_detail_data'])->middleware('auth');
-Route::post('/Model_pola/update_model',[ModelpolaController::class,'change_model'])->middleware('auth');
-
-
-//Karyawan
-Route::get('/karyawan',[KaryawanController::class,'index'])->middleware('auth');
-Route::post('/karyawan/post_karyawan',[KaryawanController::class,'post_karyawan'])->middleware('auth');
-Route::get('/karyawan/lihat-detail-data',[KaryawanController::class,'lihat_detail_data'])->middleware('auth');
-Route::post('/karyawan/update_karyawan',[KaryawanController::class,'change_karyawan'])->middleware('auth');
+    Route::controller(KaryawanController::class)->group(function(){
+        //Karyawan
+        Route::get('/karyawan',  'index');
+        Route::post('/karyawan/post_karyawan',  'post_karyawan');
+        Route::get('/karyawan/lihat-detail-data',  'lihat_detail_data');
+        Route::post('/karyawan/update_karyawan',  'change_karyawan');
+    });
+});
