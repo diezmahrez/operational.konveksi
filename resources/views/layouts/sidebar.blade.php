@@ -197,7 +197,7 @@
         <p class="text-center text-light">Operational App</p>
         <hr>
     </div>
-    <ul class="list-unstyled components">
+    <ul class="list-unstyled components" id="ParentSidebar">
         <li class="@if ($menu == 'Dashboard')onthis @endif">
             <a href="{{url('dashboard')}}" class=""><i class="bi bi-speedometer me-2"></i>Dashboard</a>
         </li>
@@ -212,7 +212,7 @@
                 </span>
                 @endif
             </a>
-            <ul class="@if ($menu == 'PotonganBahan') collapsed @else collapse @endif list-unstyled" id="potonganbahan">
+            <ul class="@if ($menu == 'PotonganBahan') collapse show @else collapse @endif list-unstyled" id="potonganbahan" data-bs-parent="#ParentSidebar">
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahan')onthis @endif" href="{{ url('potonganbahan') }}">Input Data
                     @if (session()->get('badge.potongan_bahan') > 0)
                     <span class="badge text-bg-warning ms-1">
@@ -226,8 +226,8 @@
         <li class="">
             <a href="#potonganbahandetail" data-bs-toggle="collapse" aria-expanded="@if ($menu == 'PotonganBahanDetail')true @else false @endif" class="@if ($menu == 'PotonganBahanDetail') dropdown-toggle @else dropdown-toggle collapsed @endif"><i class="bi bi-sticky-fill me-2"></i>Potongan Bahan Detail
             </a>
-            <ul class="@if ($menu == 'PotonganBahanDetail') collapsed @else collapse @endif list-unstyled" id="potonganbahandetail">
-                <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Data Process </a>
+            <ul class="@if ($menu == 'PotonganBahanDetail') collapse show @else collapse @endif list-unstyled" id="potonganbahandetail"  data-bs-parent="#ParentSidebar">
+                <a class="@if ( isset($submenu) and $submenu == 'inputprocess')onthis @endif" href="{{ url('potonganbahandetail/inputprocess') }}">Input Data Process </a>
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">Input Data Closed </a>
                 <a class="@if ( isset($submenu) and $submenu == 'inputdatapotonganbahandetail')onthis @endif" href="{{ url('potonganbahandetail') }}">History </a>
                     <!-- <a href="#">History </a> -->

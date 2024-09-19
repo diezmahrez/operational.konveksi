@@ -7,6 +7,7 @@ use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\ModelpolaController;
 use App\Http\Controllers\Orders;
 use App\Http\Controllers\PotonganbahanController;
+use App\Http\Controllers\PotonganBahanDetailController;
 use App\Models\Karyawan;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,11 @@ Route::post('/potonganbahan/delete_detaildata',[PotonganbahanController::class,'
 Route::post('/potonganbahan/edit_detaildata',[PotonganbahanController::class,'edit_detaildata'])->middleware('auth');
 Route::get('/potonganbahan/close/{kode_potonganbahan}',[PotonganbahanController::class,'close_potonganbahan'])->middleware('auth');
 Route::get('/potonganbahan/print/{kode_potonganbahan}',[PotonganbahanController::class,'print_potonganbahan'])->middleware('auth');
+
+//Potongan Bahan Detail
+Route::any('/potonganbahandetail/inputprocess',[PotonganBahanDetailController::class,'inputprocess'])->middleware('auth');
+Route::get('/potonganbahandetail/inputclose',[PotonganBahanDetailController::class,'inputclose'])->middleware('auth');
+Route::get('/potonganbahandetail/getkode_potonganbahan_detail',[PotonganBahanDetailController::class,'getkode_potonganbahan_detail'])->middleware('auth');
 
 
 
