@@ -176,7 +176,8 @@ class PotonganbahanController extends Controller
             ->join('dt_customer', 'dt_potonganbahan.kode_customer', '=', 'dt_customer.kode_customer')
             ->join('dt_modelpola', 'dt_potonganbahan.kode_model', '=', 'dt_modelpola.kode_model')
             ->select('dt_potonganbahan.*', 'dt_customer.nama_brand', 'dt_modelpola.nama_model')->first();
-        $detail = PotonganBahanDetail::Where('kode_potonganbahan', '=', $kode_potonganbahan)->get();
+        $detail = PotonganBahanDetail::Where('kode_potonganbahan', '=', $kode_potonganbahan)
+        ->leftjoin('dt_karyawan','dt_potonganbahan_detail.nik_process','=','dt_karyawan.nik')->get();
 
         $data = [
             'menu' => 'PotonganBahan',

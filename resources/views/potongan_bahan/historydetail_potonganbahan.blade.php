@@ -95,6 +95,8 @@
                 <th class="text-center">Warna</th>
                 <th class="text-center">Yards</th>
                 <th class="text-center">Qty</th>
+                <th class="text-center">Qty End</th>
+                <th class="text-center">Penjahit</th>
                 @if (session()->get('role') == 'ADMIN')
                 <th class="text-center" style="width: 20%">Action</th>
                 @endif
@@ -107,6 +109,8 @@
                 <td id="colorPickertable" class="colorPickerCell text-center" style='background-color: #{{$d->warna}};'>{{$d->warna}}</td>
                 <td class="text-center">{{$d->yards}}</td>
                 <td class="text-center">{{$d->qty}}</td>
+                <td class="text-center">{{$d->qty_end}}</td>
+                <td class="text-center">{{$d->nama}}</td>
                 @if (session()->get('role') == 'ADMIN')
                 <td class="text-center">
                     <button class="btn btn-sm btn-warning btn-qrcode-print" data-id="{{$d->kode_potonganbahan_detail}}" data-bs-toggle="modal" data-bs-target="#auth_qr_print"><i class="bi bi-qr-code"></i></button>
