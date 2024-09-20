@@ -97,6 +97,7 @@
                 <th class="text-center">Qty</th>
                 <th class="text-center">Qty End</th>
                 <th class="text-center">Penjahit</th>
+                <th class="text-center">Status</th>
                 @if (session()->get('role') == 'ADMIN')
                 <th class="text-center" style="width: 20%">Action</th>
                 @endif
@@ -111,6 +112,7 @@
                 <td class="text-center">{{$d->qty}}</td>
                 <td class="text-center">{{$d->qty_end}}</td>
                 <td class="text-center">{{$d->nama}}</td>
+                <td class="text-center">{{$d->status}}</td>
                 @if (session()->get('role') == 'ADMIN')
                 <td class="text-center">
                     <button class="btn btn-sm btn-warning btn-qrcode-print" data-id="{{$d->kode_potonganbahan_detail}}" data-bs-toggle="modal" data-bs-target="#auth_qr_print"><i class="bi bi-qr-code"></i></button>
