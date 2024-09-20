@@ -123,6 +123,21 @@ class PotonganBahanDetailController extends Controller
                     ]
                 );
             }
+
+            $checkForUpdateOrderdetail2 = PotonganBahanDetail::where('kode_potonganbahan','=',$kode_potonganbahan)
+            ->where('status','=','CLOSED')->count();
+
+            if($checkForUpdateOrderdetail2 == 1){
+                $kode_order = 'TR'.$kode_potonganbahan;
+                $update_orders_detail2 = OrdersDetail::where('kode_order', '=', $kode_order)->update(
+                    [
+                        'finishing_process' => 'Y',
+                        'finishing_process_timestamp' => date('Y-m-d H:i:s'),
+                        'user_update' => session()->get('nik'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]
+                );
+            }
             return redirect('/potonganbahandetail/inputclose')->with('success', 'Berhasil Input Data!!');
         }
 
